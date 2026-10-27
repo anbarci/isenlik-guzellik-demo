@@ -57,7 +57,11 @@
       });
       const s = fis.querySelector('input[name="saat"]:checked');
       const metin = mesaj(h ? h.value : '', g ? g.value : '', s ? s.value : '');
-      fis.querySelector('[data-mesaj]').textContent = metin;
+      const kutu = fis.querySelector('[data-mesaj]');
+      if (kutu) kutu.textContent = metin;
+      const yazi = el => el ? el.closest('label').textContent.trim() : '';
+      const kart = { hizmet: yazi(h) || 'Karar vermedim', gun: yazi(g), saat: s ? s.value : '' };
+      document.querySelectorAll('[data-kart]').forEach(el => { el.textContent = kart[el.dataset.kart] || ''; });
       gonder.forEach(a => a.href = 'https://wa.me/' + NO + '?text=' + encodeURIComponent(metin));
     };
     fis.addEventListener('change', yenile);
